@@ -27,25 +27,22 @@ node {
     }
 
     stage("SSH Into k8s Server") {
-        def remote = [:]
-        remote.name = 'K8S master'
-        remote.host = '192.168.56.6'
-        remote.user = 'vagrant'
-        remote.password = 'vagrant'
-        remote.allowAnyHosts = true
-        
-        stage('Sudoing onto k8smaster') {
-            sh "sudo -i"
-            echo "Accessed as sudo user"
-        }
+        steps{
+            sshagent(credentials:['Login_Cloud_Server']){
+
+            stage('Sudoing onto k8smaster') {
+                sh "sudo -i"
+                echo "Accessed as sudo user"
+            }
 
 
-        stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
-            sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
-        }
+            stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
+                sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
+            }
 
-        stage('Deploy spring boot') {
-          sshCommand remote: remote, command: "kubectl apply -f k8s-spring-boot-deployment.yml"
+            stage('Deploy spring boot') {
+              sshCommand remote: remote, command: "kubectl apply -f k8s-spring-boot-deployment.yml"
+            }
         }
     }
 
