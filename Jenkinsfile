@@ -12,18 +12,18 @@ node {
     }
 
     stage("Docker build"){
-        sh 'sudo docker version'
-        sh 'sudo docker build -t jhooq-docker-demo .'
-        sh 'sudo docker image list'
-        sh 'sudo docker tag jhooq-docker-demo giridhar7/jhooq-docker-demo:jhooq-docker-demo'
+        sh 'docker version'
+        sh 'docker build -t jhooq-docker-demo .'
+        sh 'docker image list'
+        sh 'docker tag jhooq-docker-demo giridhar7/jhooq-docker-demo:jhooq-docker-demo'
     }
 
     withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'PASSWORD')]) {
-        sh 'sudo docker login -u giridhar7 -p $PASSWORD'
+        sh 'docker login -u giridhar7 -p $PASSWORD'
     }
 
     stage("Push Image to Docker Hub"){
-        sh 'sudo docker push  giridhar7/jhooq-docker-demo:jhooq-docker-demo'
+        sh 'docker push  giridhar7/jhooq-docker-demo:jhooq-docker-demo'
     }
 
     stage("SSH Into k8s Server") {
