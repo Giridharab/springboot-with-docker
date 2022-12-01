@@ -28,7 +28,7 @@ node {
 
     stage("SSH Into k8s Server") {
         steps{
-            sshagent(credentials:['ssh_credentials']){
+            sshagent(credentials:['SSH_CREDENTIALS']){
 
             stage('Sudoing onto k8smaster') {
                 sh "sudo -i"
