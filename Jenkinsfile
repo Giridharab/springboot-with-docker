@@ -27,24 +27,24 @@ node {
     }
 
     stage("SSH Into k8s Server") {
-        steps{
-            sshagent(credentials:['SSH_CREDENTIALS']){
-
-            stage('Sudoing onto k8smaster') {
-                sh "sudo -i"
-                echo "Accessed as sudo user"
-            }
-
-
-            stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
-                sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
-            }
-
-            stage('Deploy spring boot') {
-              sshCommand remote: remote, command: "kubectl apply -f k8s-spring-boot-deployment.yml"
+            steps{
+                sshagent(credentials:['SSH_CREDENTIALS']){
+    
+                stage('Sudoing onto k8smaster') {
+                    sh "sudo -i"
+                    echo "Accessed as sudo user"
+                }
+    
+    
+                stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
+                    sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
+                }
+    
+                stage('Deploy spring boot') {
+                  sshCommand remote: remote, command: "kubectl apply -f k8s-spring-boot-deployment.yml"
+                }
             }
         }
-    }
     }
 
 }
