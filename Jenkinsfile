@@ -18,7 +18,7 @@ node {
         sh 'docker tag jhooq-docker-demo giridhar7/jhooq-docker-demo:jhooq-docker-demo'
     }
 
-    withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'PASSWORD')]) {
+    withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'PASSWORD')]) {
         sh 'docker login -u giridhar7 -p $PASSWORD'
     }
 
