@@ -29,7 +29,4 @@ node {
     stage("SSH Into k8s Server") {
            sh 'ssh k8smaster'
             }
-        }
-    }
-
 }
